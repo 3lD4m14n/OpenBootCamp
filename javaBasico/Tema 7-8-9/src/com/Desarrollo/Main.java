@@ -1,9 +1,11 @@
 package com.Desarrollo;
 
+import java.io.*;
 import java.util.Vector;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+import java.io.PrintStream;
 
 public class Main {
     public static String reverse(String text) {
@@ -35,6 +37,10 @@ public class Main {
             System.out.print( element + " " );
         }
         System.out.print("\n");
+    }
+
+    public static int DividePorCero(int numero) throws ArithmeticException{
+        return numero / 0;
     }
 
     public static void main( String[] args ){
@@ -77,5 +83,43 @@ public class Main {
         LinkedList<String> BList = new LinkedList<>(AList);
         viewListValues(AList);
         viewListValues(BList);
+
+        //6)
+        ArrayList<Integer> integerList = new ArrayList<>();
+        for( int i = 1 ; i <= 10 ; i++ ){
+            integerList.add(i);
+        }
+        for( int i = 0 ; i < integerList.size() ; i++ ){
+            if( integerList.get(i) % 2 != 0 ){
+                System.out.println( integerList.get(i) );
+            }else{
+                integerList.remove(i);
+                i--;
+            }
+        }
+
+        //7)
+        try{
+            int resultado = DividePorCero(7);
+        }catch (ArithmeticException e){
+            System.out.println("Esto no se puede");
+        }
+        System.out.println("Demo de codigo");
+
+        //8)
+        try {
+            InputStream fileIn = new FileInputStream("README");
+            BufferedInputStream fileInBuffer = new BufferedInputStream(fileIn);
+
+            PrintStream fileOut = new PrintStream("READMECopia");
+
+            for( int dato = fileInBuffer.read() ; dato != -1 ; dato = fileInBuffer.read()){
+                fileOut.print( (char) dato );
+            }
+        }catch (FileNotFoundException e){
+            System.out.println("Error: No se encontro el Archivo");
+        }catch ( IOException e){
+            System.out.println("Error: " + e.getMessage());
+        }
     }
 }
