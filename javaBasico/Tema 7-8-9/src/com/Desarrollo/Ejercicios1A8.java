@@ -1,13 +1,17 @@
 package com.Desarrollo;
 
-import java.io.*;
 import java.util.Vector;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.io.PrintStream;
+import java.io.InputStream;
+import java.io.FileInputStream;
+import java.io.BufferedInputStream;
+import java.io.IOException;
+import java.io.FileNotFoundException;
 
-public class Main {
+public class Ejercicios1A8 {
     public static String reverse(String text) {
         StringBuilder reverse = new StringBuilder();
 
@@ -116,10 +120,15 @@ public class Main {
             for( int dato = fileInBuffer.read() ; dato != -1 ; dato = fileInBuffer.read()){
                 fileOut.print( (char) dato );
             }
+
+            fileIn.close();
+            fileOut.close();
         }catch (FileNotFoundException e){
             System.out.println("Error: No se encontro el Archivo");
         }catch ( IOException e){
             System.out.println("Error: " + e.getMessage());
         }
+
+
     }
 }
