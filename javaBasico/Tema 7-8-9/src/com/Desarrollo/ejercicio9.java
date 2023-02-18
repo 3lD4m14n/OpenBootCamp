@@ -28,16 +28,18 @@ public class ejercicio9 {
             while ((line = csvBuffer.readLine()) != null){
 
                 String[] field = line.split(",");
-                HashMap<String, HashMap< AbstractMap.SimpleEntry<String, String> , Integer> > group = foodCant.get(field[2]);
+                HashMap<String, HashMap< AbstractMap.SimpleEntry<String, String> , Integer> > group;
 
-                if( group == null ){
-                    group = foodCant.put(field[2], new HashMap<>());
+                if( ( group = foodCant.get(field[2]) ) == null ){
+                    foodCant.put(field[2], new HashMap<>());
+                    group = foodCant.get( field[2] );
                 }
 
-                HashMap< AbstractMap.SimpleEntry<String, String> , Integer> subgroup = group.get(field[3]);
+                HashMap< AbstractMap.SimpleEntry<String, String> , Integer> subgroup;
 
-                if( subgroup == null ){
-                    subgroup = group.put(field[3], new HashMap<>());
+                if( ( subgroup = group.get(field[3]) ) == null ){
+                    group.put(field[3], new HashMap<>());
+                    subgroup = group.get( field[3] );
                 }
 
                 AbstractMap.SimpleEntry<String, String> foodName =
@@ -51,6 +53,8 @@ public class ejercicio9 {
 
                 subgroup.put( foodName, numberFood + 1 );
             }
+
+            csv.close();
         }catch ( IOException e){
 
         }/*catch ( FileNotFoundException e ){
