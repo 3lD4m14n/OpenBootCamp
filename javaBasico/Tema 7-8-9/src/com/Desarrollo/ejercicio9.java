@@ -1,21 +1,101 @@
 package com.Desarrollo;
 
 import java.util.AbstractMap;
+import java.util.Map;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.io.InputStream;
 import java.io.FileInputStream;
 import java.io.InputStreamReader;
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.PrintStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 
 public class ejercicio9 {
+    public static void printFoodHash(
+            PrintStream writer,
+            HashMap<
+                    String,
+                    HashMap<
+                        String,
+                        HashMap<
+                            AbstractMap.SimpleEntry<
+                                String,
+                                String
+                            >,
+                            Integer
+                        >
+                    >
+            > foodCant
+    ) {
+        for (
+                Map.Entry<
+                        String,
+                        HashMap<
+                            String,
+                            HashMap<
+                                AbstractMap.SimpleEntry<
+                                    String, String
+                                >,
+                                Integer
+                            >
+                        >
+                > group : foodCant.entrySet()
+        ) {
+            writer.println(group.getKey() + ":");
+            for (
+                    Map.Entry<
+                            String,
+                            HashMap<
+                                AbstractMap.SimpleEntry<
+                                        String, String
+                                        >,
+                                    Integer
+                                >
+                            > subgroup : group.getValue().entrySet()
+            ) {
+                writer.println( "\t" + subgroup.getKey());
+                for(
+                        Map.Entry<
+                            AbstractMap.SimpleEntry<
+                                String, String
+                            >,
+                            Integer
+                        > foodName : subgroup.getValue().entrySet()
+                ){
+                    writer.println("\t\t" + "Food Name:" + foodName.getKey().getKey());
+                    writer.println("\t\t" + "Scientific Name:" + foodName.getKey().getValue());
+                    writer.println("\t\t" + "Cant:" + foodName.getValue() + "\n");
+                }
+            }
+        }
+    }
+
+    public static void printList( PrintStream writer,
+                                  LinkedList<String> list
+    ){
+        for( String element : list ){
+            writer.println(element);
+        }
+    }
+
     public static void main( String[] args ){
 
-        HashMap<String, HashMap<String, HashMap< AbstractMap.SimpleEntry<String, String> , Integer> > > foodCant =
-                new HashMap<>();
+        //el siguiente hashmap esta destinado a contar cuantas veces aparece una determinada comida en el csv
+        HashMap<
+                String,
+                HashMap<
+                        String,
+                        HashMap<
+                                AbstractMap.SimpleEntry<
+                                        String,
+                                        String>,
+                                Integer
+                        >
+                >
+        > foodCant = new HashMap<>();
+        //la siguiente lista tiene por objetivo simplemente guardar cada comida que haya sin contar cantidad
         LinkedList<String> food = new LinkedList<>();
 
         try{
@@ -55,10 +135,21 @@ public class ejercicio9 {
             }
 
             csv.close();
+
+            File archive = new File("foodListCant");
+            PrintStream writer = new PrintStream(archive);
+
+            printFoodHash(writer,foodCant);
+            writer.close();
+
+            archive = new File("foodList");
+            writer = new PrintStream(archive);
+
+            printList(writer,food);
+
+
         }catch ( IOException e){
-
-        }/*catch ( FileNotFoundException e ){
-
-        }*/
+            System.out.println("Error: " + e.getMessage() );
+        }
     }
 }
